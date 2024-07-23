@@ -1,22 +1,27 @@
-import { User } from "./../../shared/models/user";
+import { User } from "../../shared/models/user";
+import { UserSchema } from "../../shared/schema/user";
 
-const addUser = (user: any) => {
-  new User({
+const addUser = async (user: User) => {
+  const addedUser = await new UserSchema({
     firstname: user.firstname,
     lastname: user.lastname,
     username: user.username,
     password: user.password,
   }).save();
+
+  return addedUser;
 };
 
-const getUser = async (id: string) => {
-  const user = await User.findById(id).exec();
-  return user;
+const getUserById = async (id: string) => {
+  return await UserSchema.findById(id).exec();
+};
+
+const getUserByUsername = async (username: string) => {
+  return await UserSchema.findOne({ username: username }).exec();
 };
 
 const getUsers = async () => {
-  const users = await User.find({}).exec();
-  return users;
+  return await UserSchema.find({});
 };
 
-export default { addUser, getUser, getUsers };
+export default { addUser, getUserById, getUsers, getUserByUsername };
