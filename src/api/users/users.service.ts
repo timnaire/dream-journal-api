@@ -1,13 +1,16 @@
 import userRepository from "./users.repository";
 
-const addUser = (id: string) => {
-  // handle application services here
-  return userRepository.addUser(id);
+const addUser = (user: any) => {
+  return userRepository.addUser(user);
 };
 
 const getUser = (id: string) => {
-  // handle application services here
   return userRepository.getUser(id);
 };
 
-export default { addUser, getUser };
+const getUsers = () => {
+  return userRepository.getUsers();
+};
+
+
+export default { addUser, getUser, getUsers };
