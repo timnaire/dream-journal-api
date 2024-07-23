@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000;
 dbConnect();
 app.use(express.json());
 
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });

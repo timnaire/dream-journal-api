@@ -20,8 +20,18 @@ const getUserByUsername = async (username: string) => {
   return await UserSchema.findOne({ username: username }).exec();
 };
 
+const getUserByUsernameAndPassword = async (username: string, password: string) => {
+  return await UserSchema.findOne({ username, password }).exec();
+};
+
 const getUsers = async () => {
   return await UserSchema.find({});
 };
 
-export default { addUser, getUserById, getUsers, getUserByUsername };
+export default {
+  addUser,
+  getUserById,
+  getUsers,
+  getUserByUsername,
+  getUserByUsernameAndPassword
+};
