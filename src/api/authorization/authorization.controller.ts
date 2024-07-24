@@ -14,7 +14,6 @@ const signInUser = async (req: Request, res: Response) => {
             password: string().trim().required(),
         });
 
-
         const validatedUser = await credentials.validate(req.body);
         const isUserExist = await userService.getUserByUsername(validatedUser.username);
 
