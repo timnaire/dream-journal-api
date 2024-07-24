@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     try {
         const authHeader = req.headers['authorization'];
+        console.log('cookie', req.headers.cookie);
         console.log(authHeader);
         const token = authHeader && authHeader.split(' ')[1]
 

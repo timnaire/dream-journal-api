@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 
 
 const signInUser = async (req: Request, res: Response) => {
+    console.log('cookie', req.headers.cookie);
     try {
         let credentials = object({
             username: string().trim().required(),
@@ -26,6 +27,7 @@ const signInUser = async (req: Request, res: Response) => {
 
                 if (result) {
                     const token = generateAccessToken(req.body.username, req.body.password);
+                    res.cookie("token", token, { httpOnly: true });
                     return res.json(token);
                 } else {
                     return res.json(jsonResponse(false, null, "Incorrect password."));
