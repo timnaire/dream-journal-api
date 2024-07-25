@@ -31,5 +31,5 @@ export default {
   getUser,
   getUsers,
   getUserByUsername,
-  getUserByUsernameAndPassword
+  getUserByUsernameAndPassword,
 };

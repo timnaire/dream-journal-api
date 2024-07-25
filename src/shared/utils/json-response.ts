@@ -4,11 +4,7 @@ export interface ApiResponse {
   message: string;
 }
 
-export const jsonResponse = (
-  success: boolean,
-  data: any,
-  message: string
-): ApiResponse => {
+export const jsonResponse = (success: boolean, data: any, message: string): ApiResponse => {
   return {
     success,
     data,
