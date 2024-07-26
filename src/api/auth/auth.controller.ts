@@ -32,7 +32,7 @@ const signInUser = async (req: Request, res: Response) => {
         }
       });
     } else {
-      return res.json(jsonResponse(false, null, "User not found."));
+      return res.json(jsonResponse(false, null, "Incorrect username or password."));
     }
   } catch (error: any) {
     if (error && error.error && error.error.length > 0) {
