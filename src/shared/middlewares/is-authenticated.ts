@@ -1,24 +1,33 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { VerifyErrors } from "jsonwebtoken";
+import cookie from "cookie";
+
+// Parse cookie token
+const parseTokenFromCookies = (req: Request): string | null => {
+  if (!req.headers || !req.headers.cookie) return null;
+
+  const cookies = cookie.parse(req.headers.cookie);
+  return cookies.token || null;
+};
 
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.headers.cookie && req.headers.cookie.split("=")[1];
+    const token = parseTokenFromCookies(req);
 
-    console.log("token", token);
-
-    if (token == null) return res.sendStatus(401);
+    if (!token) {
+      return res.status(401).json({ redirect: "/sign-in" });
+    }
 
     jwt.verify(token, process.env.JWT_SECRET as string, (err: VerifyErrors | null, user: any) => {
       if (err) {
         if (err.name === "TokenExpiredError") {
-          return res.redirect(307, "/api/auth/sign-out");
+          res.cookie("token", "", { expires: new Date() });
+          return res.status(401).json({ redirect: "/sign-in" });
         }
 
         return res.sendStatus(403);
       }
       req.body.user = user;
-      console.log("req.body.user", req.body.user);
       next();
     });
   } catch (error) {
