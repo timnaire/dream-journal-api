@@ -26,7 +26,7 @@ const signInUser = async (req: Request, res: Response) => {
         if (result) {
           const token = generateAccessToken(req.body.username, req.body.password);
           res.cookie("token", token, { httpOnly: true });
-          return res.json(jsonResponse(true, isUserExist, "User authenticated."));
+          return res.json(jsonResponse(true, isUserExist.toModel, "User authenticated."));
         } else {
           return res.json(jsonResponse(false, null, "Incorrect password."));
         }
@@ -73,11 +73,14 @@ const signOutUser = (req: Request, res: Response) => {
 };
 
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
-  isAuthenticated(req, res, (err?: any) => {
+  isAuthenticated(req, res, async (err?: any) => {
     if (err) {
       return res.status(401).json({ redirect: "/sign-in" });
     }
-    return res.json({ isAuthenticated: true });
+
+    const user = await userService.getUserByUsername(req.body.user.username);
+
+    return res.json({ isAuthenticated: true, user: user?.toModel });
   });
 };
 

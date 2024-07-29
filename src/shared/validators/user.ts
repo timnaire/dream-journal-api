@@ -13,6 +13,7 @@ export const validateAddUser = async (data: any): Promise<ValidatorResponse> => 
       firstname: string().min(2, "${path} must be at least 2 characters long").required(),
       lastname: string().min(2, "${path} must be at least 2 characters long").required(),
       username: string().min(3, "${path} must be at least 3 characters long").required(),
+      email: string().min(3, "${path} must be at least 3 characters long").email().required(),
       password: string().min(8, "${path} must be at least 8 characters long").required(),
     });
 
