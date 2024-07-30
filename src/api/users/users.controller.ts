@@ -4,7 +4,7 @@ import { ApiResponse, jsonResponse } from "../../shared/utils";
 import userService from "./users.service";
 
 const getUser = async (req: Request, res: Response) => {
-  const id = req.params.userId;
+  const id = req.params.id;
   let user = null;
   if (isValidObjectId(id)) {
     user = await userService.getUser(id);

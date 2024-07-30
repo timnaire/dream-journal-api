@@ -30,6 +30,7 @@ const userSchema = new Schema(
       toModel: {
         get() {
           return {
+            id: this.id,
             firstname: this.firstname,
             lastname: this.lastname,
             fullname: this.firstname + " " + this.lastname,
@@ -49,6 +50,7 @@ const userSchema = new Schema(
 
 userSchema.virtual("toModel").get(function () {
   return {
+    id: this.id,
     firstname: this.firstname,
     lastname: this.lastname,
     fullname: this.fullname,

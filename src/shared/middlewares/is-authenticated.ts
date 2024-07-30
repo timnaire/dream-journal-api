@@ -12,7 +12,10 @@ const parseTokenFromCookies = (req: Request): string | null => {
 
 export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = parseTokenFromCookies(req);
+    const authHeader = req.headers["authorization"];
+    const authToken = authHeader && authHeader.split(" ")[1];
+
+    const token = parseTokenFromCookies(req) ? parseTokenFromCookies(req) : authToken;
 
     if (!token) {
       return res.status(401).json({ redirect: "/sign-in" });
