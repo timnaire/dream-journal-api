@@ -22,36 +22,8 @@ const dreamSchema = new Schema(
   },
   {
     timestamps: true,
-    virtuals: {
-      toModel: {
-        get() {
-          return {
-            id: this.id,
-            title: this.title,
-            dream: this.dream,
-            recurrent: this.recurrent,
-            nightmare: this.nightmare,
-            paralysis: this.paralysis,
-            favorite: this.favorite,
-            userId: this.userId,
-          };
-        },
-      },
-    },
+    toJSON: { virtuals: true },
   }
 );
-
-dreamSchema.virtual("toModel").get(function () {
-  return {
-    id: this.id,
-    title: this.title,
-    dream: this.dream,
-    recurrent: this.recurrent,
-    nightmare: this.nightmare,
-    paralysis: this.paralysis,
-    favorite: this.favorite,
-    userId: this.userId,
-  };
-});
 
 export const DreamSchema = mongoose.model("Dream", dreamSchema);

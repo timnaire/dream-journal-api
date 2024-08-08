@@ -9,7 +9,7 @@ const getDreams = async () => {
   let newDreams = [];
   for (let dream of dreams) {
     const user = await usersService.getUser(String(dream.userId));
-    newDreams.push({ ...dream.toModel, user: user?.toModel });
+    newDreams.push({ ...dream.toJSON(), user: user?.toModel });
   }
 
   return newDreams;

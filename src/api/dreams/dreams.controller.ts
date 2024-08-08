@@ -26,7 +26,7 @@ const addDream = async (req: Request, res: Response) => {
     const user = await usersService.getUserByUsername(req.body.user.username);
     const addedDream = await dreamsService.addDream(user?.id, validateDream);
 
-    const forReturn = { ...addedDream.toModel, user: user?.toModel };
+    const forReturn = { ...addedDream.toJSON(), user: user?.toModel };
     return res.send(jsonResponse(true, forReturn, "Dream successfully added."));
   } catch (error: any) {
     if (error && error.error && error.error.length > 0) {
@@ -53,7 +53,7 @@ const updateDream = async (req: Request, res: Response) => {
     const user = await usersService.getUserByUsername(req.body.user.username);
     const updatedDream = await dreamsService.updateDream(validateDream);
 
-    const forReturn = { ...updatedDream?.toModel, user: user?.toModel };
+    const forReturn = { ...updatedDream?.toJSON(), user: user?.toModel };
     return res.send(jsonResponse(true, forReturn, "Dream successfully added."));
   } catch (error: any) {
     if (error && error.error && error.error.length > 0) {

@@ -72,6 +72,18 @@ const signOutUser = (req: Request, res: Response) => {
   return res.json({ redirect: "/sign-in" });
 };
 
+const forgotPassword = (req: Request, res: Response, next: NextFunction) => {
+  // Logic for forgot password
+  // email the password
+  return res.json({});
+};
+
+const changePassword = (req: Request, res: Response, next: NextFunction) => {
+  // Logic for change password
+  // email the password
+  return res.json({});
+};
+
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
   isAuthenticated(req, res, async (err?: any) => {
     if (err) {
@@ -84,4 +96,11 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export default { signInUser, signUpUser, signOutUser, validateToken };
+export default {
+  signInUser,
+  signUpUser,
+  signOutUser,
+  forgotPassword,
+  changePassword,
+  validateToken,
+};
