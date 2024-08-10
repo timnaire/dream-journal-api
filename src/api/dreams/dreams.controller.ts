@@ -73,9 +73,26 @@ const deleteDream = async (req: Request, res: Response) => {
   }
 };
 
+const getFavoriteDreams = async (req: Request, res: Response) => {
+  res.json([]);
+};
+const getNightmareDreams = async (req: Request, res: Response) => {
+  res.json([]);
+};
+const getParalysisDreams = async (req: Request, res: Response) => {
+  res.json([]);
+};
+const getRecurrentDreams = async (req: Request, res: Response) => {
+  res.json([]);
+};
+
 export default {
   getDreams,
   addDream,
   updateDream,
   deleteDream,
+  getFavoriteDreams,
+  getNightmareDreams,
+  getParalysisDreams,
+  getRecurrentDreams,
 };
