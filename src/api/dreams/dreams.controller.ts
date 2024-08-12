@@ -54,7 +54,7 @@ const updateDream = async (req: Request, res: Response) => {
     const updatedDream = await dreamsService.updateDream(validateDream);
 
     const forReturn = { ...updatedDream?.toJSON(), user: user?.toModel };
-    return res.send(jsonResponse(true, forReturn, "Dream successfully added."));
+    return res.send(jsonResponse(true, forReturn, "Dream successfully updated."));
   } catch (error: any) {
     if (error && error.error && error.error.length > 0) {
       return res.json(jsonResponse(false, null, error?.errors[0]));
