@@ -11,7 +11,7 @@ const getDreams = async (req: Request, res: Response) => {
 };
 
 const addDream = async (req: Request, res: Response) => {
-  const { title, dream, recurrent, nightmare, paralysis, favorite } = req.body;
+  const { title, dream, recurrent, nightmare, paralysis, favorite, createdAt } = req.body;
   try {
     let dreamSchema = object({
       title: string().trim().required(),
@@ -20,9 +20,18 @@ const addDream = async (req: Request, res: Response) => {
       nightmare: boolean().required(),
       paralysis: boolean().required(),
       favorite: boolean().required(),
+      createdAt: string().trim().required(),
     });
 
-    const validateDream = await dreamSchema.validate({ title, dream, recurrent, nightmare, paralysis, favorite });
+    const validateDream = await dreamSchema.validate({
+      title,
+      dream,
+      recurrent,
+      nightmare,
+      paralysis,
+      favorite,
+      createdAt,
+    });
     const user = await usersService.getUserByUsername(req.body.user.username);
     const addedDream = await dreamsService.addDream(user?.id, validateDream);
 
@@ -37,7 +46,7 @@ const addDream = async (req: Request, res: Response) => {
 };
 
 const updateDream = async (req: Request, res: Response) => {
-  const { id, title, dream, recurrent, nightmare, paralysis, favorite } = req.body;
+  const { id, title, dream, recurrent, nightmare, paralysis, favorite, createdAt } = req.body;
   try {
     let dreamSchema = object({
       id: string().trim().required(),
@@ -47,9 +56,19 @@ const updateDream = async (req: Request, res: Response) => {
       nightmare: boolean().required(),
       paralysis: boolean().required(),
       favorite: boolean().required(),
+      createdAt: string().trim().required(),
     });
 
-    const validateDream = await dreamSchema.validate({ id, title, dream, recurrent, nightmare, paralysis, favorite });
+    const validateDream = await dreamSchema.validate({
+      id,
+      title,
+      dream,
+      recurrent,
+      nightmare,
+      paralysis,
+      favorite,
+      createdAt,
+    });
     const user = await usersService.getUserByUsername(req.body.user.username);
     const updatedDream = await dreamsService.updateDream(validateDream);
 

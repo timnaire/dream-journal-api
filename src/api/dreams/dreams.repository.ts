@@ -11,7 +11,7 @@ const addDream = async (id: ObjectId, dream: Dream) => {
 };
 
 const updateDream = async (dream: Dream) => {
-  return await DreamSchema.findByIdAndUpdate(dream.id, dream, { returnDocument: "after" });
+  return await DreamSchema.findByIdAndUpdate(dream.id, dream, { returnDocument: "after", timestamps: false });
 };
 
 const deleteDream = async (id: string) => {

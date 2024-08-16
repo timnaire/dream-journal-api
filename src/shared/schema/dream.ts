@@ -19,6 +19,10 @@ const dreamSchema = new Schema(
     nightmare: Boolean,
     paralysis: Boolean,
     favorite: Boolean,
+    createdAt: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -9,4 +9,6 @@ export interface Dream {
   paralysis: boolean;
   favorite: boolean;
   userId?: ObjectId;
+  createdAt?: string;
+  updatedAt?: string;
 }
