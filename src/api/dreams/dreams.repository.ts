@@ -3,7 +3,7 @@ import { Dream } from "../../shared/models/dream";
 import { DreamSchema } from "../../shared/schema/dream";
 
 const getDreams = async () => {
-  return await DreamSchema.find({});
+  return await DreamSchema.find({}).sort({ createdAt: 'desc' });
 };
 
 const addDream = async (id: ObjectId, dream: Dream) => {
