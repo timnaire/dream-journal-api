@@ -9,6 +9,8 @@ export interface Dream {
   paralysis: boolean;
   favorite: boolean;
   userId?: ObjectId;
+  imageId?: ObjectId;
+  audioId?: ObjectId;
   createdAt?: string;
   updatedAt?: string;
 }

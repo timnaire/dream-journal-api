@@ -14,19 +14,19 @@ const addUser = async (user: User) => {
 };
 
 const getUserById = async (id: string) => {
-  return await UserSchema.findById(id).exec();
+  return UserSchema.findById(id).exec();
 };
 
 const getUserByUsername = async (username: string) => {
-  return await UserSchema.findOne({ username: username }).exec();
+  return UserSchema.findOne({ username: username }).exec();
 };
 
 const getUserByUsernameAndPassword = async (username: string, password: string) => {
-  return await UserSchema.findOne({ username, password }).exec();
+  return UserSchema.findOne({ username, password }).exec();
 };
 
 const getUsers = async () => {
-  return await UserSchema.find({});
+  return UserSchema.find({});
 };
 
 export default {

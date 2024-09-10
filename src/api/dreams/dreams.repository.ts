@@ -1,21 +1,32 @@
 import { ObjectId } from "mongoose";
 import { Dream } from "../../shared/models/dream";
 import { DreamSchema } from "../../shared/schema/dream";
+import { MediaSchema } from "../../shared/schema/media";
 
 const getDreams = async () => {
-  return await DreamSchema.find({}).sort({ createdAt: 'desc' });
+  return DreamSchema.find({}).sort({ createdAt: "desc" });
 };
 
 const addDream = async (id: ObjectId, dream: Dream) => {
-  return await new DreamSchema({ ...dream, userId: id }).save();
+  return new DreamSchema({ ...dream, userId: id }).save();
 };
 
 const updateDream = async (dream: Dream) => {
-  return await DreamSchema.findByIdAndUpdate(dream.id, dream, { returnDocument: "after", timestamps: false });
+  return DreamSchema.findByIdAndUpdate(dream.id, dream, { returnDocument: "after", timestamps: false });
 };
 
 const deleteDream = async (id: string) => {
-  return await DreamSchema.findByIdAndDelete(id);
+  return DreamSchema.findByIdAndDelete(id);
 };
 
-export default { getDreams, addDream, updateDream, deleteDream };
+const getDreamMedia = async (id: string) => {
+  return MediaSchema.findById(id).exec();
+};
+
+export default {
+  getDreams,
+  addDream,
+  updateDream,
+  deleteDream,
+  getDreamMedia,
+};

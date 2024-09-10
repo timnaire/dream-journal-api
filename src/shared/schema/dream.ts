@@ -15,6 +15,8 @@ const dreamSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
+    imageId: mongoose.Schema.Types.ObjectId,
+    audioId: mongoose.Schema.Types.ObjectId,
     recurrent: Boolean,
     nightmare: Boolean,
     paralysis: Boolean,

@@ -11,29 +11,9 @@ const getDreams = async (req: Request, res: Response) => {
 };
 
 const addDream = async (req: Request, res: Response) => {
-  const { title, dream, recurrent, nightmare, paralysis, favorite, createdAt } = req.body;
   try {
-    let dreamSchema = object({
-      title: string().trim().required(),
-      dream: string().trim().required(),
-      recurrent: boolean().required(),
-      nightmare: boolean().required(),
-      paralysis: boolean().required(),
-      favorite: boolean().required(),
-      createdAt: string().trim().required(),
-    });
-
-    const validateDream = await dreamSchema.validate({
-      title,
-      dream,
-      recurrent,
-      nightmare,
-      paralysis,
-      favorite,
-      createdAt,
-    });
     const user = await usersService.getUserByUsername(req.body.user.username);
-    const addedDream = await dreamsService.addDream(user?.id, validateDream);
+    const addedDream = await dreamsService.addDream(user?.id, req.body);
 
     const forReturn = { ...addedDream.toJSON(), user: user?.toModel };
     return res.send(jsonResponse(true, forReturn, "Dream successfully added."));
