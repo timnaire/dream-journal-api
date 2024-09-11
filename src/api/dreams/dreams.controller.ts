@@ -26,31 +26,9 @@ const addDream = async (req: Request, res: Response) => {
 };
 
 const updateDream = async (req: Request, res: Response) => {
-  const { id, title, dream, recurrent, nightmare, paralysis, favorite, createdAt } = req.body;
   try {
-    let dreamSchema = object({
-      id: string().trim().required(),
-      title: string().trim().required(),
-      dream: string().trim().required(),
-      recurrent: boolean().required(),
-      nightmare: boolean().required(),
-      paralysis: boolean().required(),
-      favorite: boolean().required(),
-      createdAt: string().trim().required(),
-    });
-
-    const validateDream = await dreamSchema.validate({
-      id,
-      title,
-      dream,
-      recurrent,
-      nightmare,
-      paralysis,
-      favorite,
-      createdAt,
-    });
     const user = await usersService.getUserByUsername(req.body.user.username);
-    const updatedDream = await dreamsService.updateDream(validateDream);
+    const updatedDream = await dreamsService.updateDream(req.body);
 
     const forReturn = { ...updatedDream?.toJSON(), user: user?.toModel };
     return res.send(jsonResponse(true, forReturn, "Dream successfully updated."));
