@@ -13,9 +13,9 @@ const getDreams = async (req: Request, res: Response) => {
 const addDream = async (req: Request, res: Response) => {
   try {
     const user = await usersService.getUserByUsername(req.body.user.username);
-    const addedDream = await dreamsService.addDream(user?.id, req.body);
+    const dream = await dreamsService.addDream(user?.id, req.body);
 
-    const forReturn = { ...addedDream.toJSON(), user: user?.toModel };
+    const forReturn = { ...dream, user: user?.toModel };
     return res.send(jsonResponse(true, forReturn, "Dream successfully added."));
   } catch (error: any) {
     if (error && error.error && error.error.length > 0) {
@@ -28,9 +28,9 @@ const addDream = async (req: Request, res: Response) => {
 const updateDream = async (req: Request, res: Response) => {
   try {
     const user = await usersService.getUserByUsername(req.body.user.username);
-    const updatedDream = await dreamsService.updateDream(req.body);
+    const dream = await dreamsService.updateDream(req.body);
 
-    const forReturn = { ...updatedDream?.toJSON(), user: user?.toModel };
+    const forReturn = { ...dream, user: user?.toModel };
     return res.send(jsonResponse(true, forReturn, "Dream successfully updated."));
   } catch (error: any) {
     if (error && error.error && error.error.length > 0) {
@@ -42,8 +42,15 @@ const updateDream = async (req: Request, res: Response) => {
 
 const deleteDream = async (req: Request, res: Response) => {
   const id = req.params.id;
+  const controller = new AbortController();
+  req.on("close", () => {
+    controller.abort();
+  });
+
+  // TODO: Implement delete cancellation
   if (isValidObjectId(id)) {
-    await dreamsService.deleteDream(id);
+    await dreamsService.deleteDream(id, req.body.user.username);
+    console.log("deleted");
     return res.json(jsonResponse(true, {}, "Dream deleted."));
   } else {
     return res.json(jsonResponse(false, null, "Invalid dream id."));

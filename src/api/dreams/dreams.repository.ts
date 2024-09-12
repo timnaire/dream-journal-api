@@ -19,8 +19,16 @@ const deleteDream = async (id: string) => {
   return DreamSchema.findByIdAndDelete(id);
 };
 
-const getDreamMedia = async (id: string) => {
+const getDreamById = async (id: string) => {
+  return DreamSchema.findById(id).exec();
+};
+
+const getDreamMediaById = async (id: string) => {
   return MediaSchema.findById(id).exec();
+};
+
+const deleteMedia = async (id: string) => {
+  return MediaSchema.findByIdAndDelete(id);
 };
 
 export default {
@@ -28,5 +36,7 @@ export default {
   addDream,
   updateDream,
   deleteDream,
-  getDreamMedia,
+  getDreamById,
+  getDreamMediaById,
+  deleteMedia,
 };
