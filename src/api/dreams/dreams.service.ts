@@ -67,9 +67,8 @@ const addDream = async (id: ObjectId, reqBody: DreamRequest) => {
   const dream = { ...validateInputs, imageId: image?.id || null, audioId: audio?.id || null };
 
   const addedDream = await dreamsRepository.addDream(id, dream);
-  console.log("addedDream", addedDream.toJSON);
   const forReturn = { ...addedDream.toJSON(), image, audio };
-  console.log("forReturn", forReturn);
+
   return forReturn;
 };
 
@@ -94,29 +93,38 @@ const updateDream = async (reqBody: DreamRequest) => {
   return forReturn;
 };
 
-const deleteDream = async (id: string, username: string) => {
+const deleteDream = async (id: string, username: string, signal: AbortSignal) => {
   const user = await usersService.getUserByUsername(username);
   const dream = await dreamsRepository.getDreamById(id);
-
   const s3 = new S3Service(user?.id);
+  // Prepare batch deletion tasks
+  const deletionTasks: Promise<any>[] = [];
+
+  // Delaying for 2 seconds before proceeding incase user want's to cancel the request.
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  if (signal.aborted) {
+    throw new Error("Delete action cancelled");
+  }
 
   if (dream?.imageId) {
     const image = await dreamsRepository.getDreamMediaById(String(dream.imageId));
     if (image) {
-      await s3.delete(image.filename);
-      await dreamsRepository.deleteMedia(String(dream.imageId));
+      deletionTasks.push(s3.delete(image.filename));
+      deletionTasks.push(dreamsRepository.deleteMedia(String(dream.imageId)));
     }
   }
 
   if (dream?.audioId) {
     const audio = await dreamsRepository.getDreamMediaById(String(dream.audioId));
     if (audio) {
-      await s3.delete(audio.filename);
-      await dreamsRepository.deleteMedia(String(dream.audioId));
+      deletionTasks.push(s3.delete(audio.filename));
+      deletionTasks.push(dreamsRepository.deleteMedia(String(dream.audioId)));
     }
   }
-
-  return dreamsRepository.deleteDream(id);
+  deletionTasks.push(dreamsRepository.deleteDream(id));
+  // Perform all deletion tasks in parallel
+  return await Promise.all(deletionTasks);
 };
 
 const saveFile = async (reqBody: DreamRequest) => {

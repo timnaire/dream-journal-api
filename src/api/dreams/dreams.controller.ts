@@ -42,18 +42,26 @@ const updateDream = async (req: Request, res: Response) => {
 
 const deleteDream = async (req: Request, res: Response) => {
   const id = req.params.id;
+  const username = req.body.user.username;
   const controller = new AbortController();
+  const { signal } = controller;
+
   req.on("close", () => {
     controller.abort();
   });
 
-  // TODO: Implement delete cancellation
-  if (isValidObjectId(id)) {
-    await dreamsService.deleteDream(id, req.body.user.username);
-    console.log("deleted");
-    return res.json(jsonResponse(true, {}, "Dream deleted."));
-  } else {
-    return res.json(jsonResponse(false, null, "Invalid dream id."));
+  try {
+    if (isValidObjectId(id)) {
+      await dreamsService.deleteDream(id, username, signal);
+      return res.json(jsonResponse(true, {}, "Dream deleted."));
+    } else {
+      return res.json(jsonResponse(false, null, "Invalid dream id."));
+    }
+  } catch (error: any) {
+    // Handle abort errors
+    if (error.name === "AbortError") {
+      return res.json(jsonResponse(false, null, "Delete action aborted."));
+    }
   }
 };
 
