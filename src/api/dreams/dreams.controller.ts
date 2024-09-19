@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { boolean, object, string } from "yup";
 import { jsonResponse } from "../../shared/utils";
 import { isValidObjectId } from "mongoose";
 import usersService from "../users/users.service";

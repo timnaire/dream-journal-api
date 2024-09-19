@@ -1,11 +1,9 @@
-import { ObjectId, Document } from "mongoose";
+import { ObjectId } from "mongoose";
 import dreamsRepository from "./dreams.repository";
 import usersService from "../users/users.service";
 import { boolean, number, object, string } from "yup";
 import { DreamRequest } from "../../shared/models/request/dream-request";
 import { MediaSchema } from "../../shared/schema/media";
-import { User } from "../../shared/models/user";
-import { UserSchema } from "../../shared/schema/user";
 import { S3Service } from "../../shared/services/s3.service";
 
 const dreamSchema = object({
