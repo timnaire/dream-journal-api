@@ -31,6 +31,21 @@ const deleteMedia = async (id: string) => {
   return MediaSchema.findByIdAndDelete(id);
 };
 
+const getRecenDreams = async (type: string) => {
+  switch (type) {
+    case "favorite":
+      return DreamSchema.find({ favorite: true }).sort({ createdAt: "desc" }).limit(4).exec();
+    case "nightmare":
+      return DreamSchema.find({ nightmare: true }).sort({ createdAt: "desc" }).limit(4).exec();
+    case "paralysis":
+      return DreamSchema.find({ paralysis: true }).sort({ createdAt: "desc" }).limit(4).exec();
+    case "recurrent":
+      return DreamSchema.find({ recurrent: true }).sort({ createdAt: "desc" }).limit(4).exec();
+    default:
+      return DreamSchema.find().sort({ createdAt: "desc" }).limit(4).exec();
+  }
+};
+
 export default {
   getDreams,
   addDream,
@@ -39,4 +54,5 @@ export default {
   getDreamById,
   getDreamMediaById,
   deleteMedia,
+  getRecenDreams,
 };

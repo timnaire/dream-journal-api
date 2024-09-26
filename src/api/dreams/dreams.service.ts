@@ -153,4 +153,29 @@ const saveFile = async (reqBody: DreamRequest) => {
   return { image, audio };
 };
 
-export default { getDreams, addDream, updateDream, deleteDream };
+export const getRecentlyFavorites = async () => {
+  return await dreamsRepository.getRecenDreams("favorite");
+};
+
+export const getRecentlyNightmares = async () => {
+  return await dreamsRepository.getRecenDreams("nightmare");
+};
+
+export const getRecentlyParalysis = async () => {
+  return await dreamsRepository.getRecenDreams("paralysis");
+};
+
+export const getRecentlyRecurrent = async () => {
+  return await dreamsRepository.getRecenDreams("recurrent");
+};
+
+export default {
+  getDreams,
+  addDream,
+  updateDream,
+  deleteDream,
+  getRecentlyFavorites,
+  getRecentlyNightmares,
+  getRecentlyParalysis,
+  getRecentlyRecurrent,
+};

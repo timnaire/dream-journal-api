@@ -65,16 +65,23 @@ const deleteDream = async (req: Request, res: Response) => {
 };
 
 const getFavoriteDreams = async (req: Request, res: Response) => {
-  res.json([]);
+  const favorites = await dreamsService.getRecentlyFavorites();
+  res.json(favorites);
 };
+
 const getNightmareDreams = async (req: Request, res: Response) => {
-  res.json([]);
+  const nightmares = await dreamsService.getRecentlyNightmares();
+  res.json(nightmares);
 };
+
 const getParalysisDreams = async (req: Request, res: Response) => {
-  res.json([]);
+  const paralysis = await dreamsService.getRecentlyParalysis();
+  res.json(paralysis);
 };
+
 const getRecurrentDreams = async (req: Request, res: Response) => {
-  res.json([]);
+  const recurrent = await dreamsService.getRecentlyRecurrent();
+  res.json(recurrent);
 };
 
 export default {
