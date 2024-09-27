@@ -8,6 +8,7 @@ router.post("/", dreamsController.addDream);
 router.put("/", dreamsController.updateDream);
 router.delete("/:id", dreamsController.deleteDream);
 
+router.get("/recent-dreams", dreamsController.getRecentDreams);
 router.get("/recent-favorite", dreamsController.getFavoriteDreams);
 router.get("/recent-nightmare", dreamsController.getNightmareDreams);
 router.get("/recent-paralysis", dreamsController.getParalysisDreams);

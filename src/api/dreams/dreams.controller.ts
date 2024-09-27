@@ -64,24 +64,57 @@ const deleteDream = async (req: Request, res: Response) => {
   }
 };
 
+const getRecentDreams = async (req: Request, res: Response) => {
+  try {
+    const recent = await dreamsService.getRecentDreams();
+    return res.json(jsonResponse(true, recent, "Recent dreams."));
+  } catch (error) {
+    return res.json(jsonResponse(false, null, "There is an error in getting recent dreams, please try again later."));
+  }
+};
+
 const getFavoriteDreams = async (req: Request, res: Response) => {
-  const favorites = await dreamsService.getRecentlyFavorites();
-  res.json(favorites);
+  try {
+    const favorites = await dreamsService.getRecentlyFavorites();
+    return res.json(jsonResponse(true, favorites, "Recent favorite dreams."));
+  } catch (error) {
+    return res.json(
+      jsonResponse(false, null, "There is an error in getting recent favorite dreams, please try again later.")
+    );
+  }
 };
 
 const getNightmareDreams = async (req: Request, res: Response) => {
-  const nightmares = await dreamsService.getRecentlyNightmares();
-  res.json(nightmares);
+  try {
+    const nightmares = await dreamsService.getRecentlyNightmares();
+    return res.json(jsonResponse(true, nightmares, "Recent nightmare dreams."));
+  } catch (error) {
+    return res.json(
+      jsonResponse(false, null, "There is an error in getting recent nightmare dreams, please try again later.")
+    );
+  }
 };
 
 const getParalysisDreams = async (req: Request, res: Response) => {
-  const paralysis = await dreamsService.getRecentlyParalysis();
-  res.json(paralysis);
+  try {
+    const paralysis = await dreamsService.getRecentlyParalysis();
+    return res.json(jsonResponse(true, paralysis, "Recent sleep paralysis dreams."));
+  } catch (error) {
+    return res.json(
+      jsonResponse(false, null, "There is an error in getting recent sleep paralysis dreams, please try again later.")
+    );
+  }
 };
 
 const getRecurrentDreams = async (req: Request, res: Response) => {
-  const recurrent = await dreamsService.getRecentlyRecurrent();
-  res.json(recurrent);
+  try {
+    const recurrent = await dreamsService.getRecentlyRecurrent();
+    return res.json(jsonResponse(true, recurrent, "Recent recurrent dreams."));
+  } catch (error) {
+    return res.json(
+      jsonResponse(false, null, "There is an error in getting recent recurrent dreams, please try again later.")
+    );
+  }
 };
 
 export default {
@@ -89,6 +122,7 @@ export default {
   addDream,
   updateDream,
   deleteDream,
+  getRecentDreams,
   getFavoriteDreams,
   getNightmareDreams,
   getParalysisDreams,
