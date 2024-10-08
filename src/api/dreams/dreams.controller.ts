@@ -9,7 +9,9 @@ const getDreams = async (req: Request, res: Response) => {
   const pageSize = parseInt(req.query.pageSize as string, 10) || 10;
 
   const dreams = await dreamsService.getDreams(page, pageSize);
-  return res.json(jsonResponse(true, dreams, "Dreams found"));
+
+  const message = dreams.items.length > 0 ? "Dreams found" : "No dreams found"
+  return res.json(jsonResponse(true, dreams, message));
 };
 
 const addDream = async (req: Request, res: Response) => {
