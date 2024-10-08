@@ -5,7 +5,10 @@ import usersService from "../users/users.service";
 import dreamsService from "./dreams.service";
 
 const getDreams = async (req: Request, res: Response) => {
-  const dreams = await dreamsService.getDreams();
+  const page = parseInt(req.query.page as string, 10) || 1;
+  const pageSize = parseInt(req.query.pageSize as string, 10) || 10;
+
+  const dreams = await dreamsService.getDreams(page, pageSize);
   return res.json(jsonResponse(true, dreams, "Dreams found"));
 };
 

@@ -23,8 +23,10 @@ const fileSchema = object({
   size: number().positive().integer().required(),
 });
 
-const getDreams = async () => {
-  const dreams = await dreamsRepository.getDreams();
+const getDreams = async (page: number, pageSize: number) => {
+  const { totalItems, totalPages, dreams } = await dreamsRepository.getDreams(page, pageSize);
+  const isFirstPage = page === 1;
+  const isLastPage = page >= totalPages;
 
   let newDreams = [];
   for (let dream of dreams) {
@@ -40,14 +42,14 @@ const getDreams = async () => {
     }
 
     newDreams.push({
-      ...dream.toJSON(),
+      ...dream,
       user: user?.toModel,
       image: image && image.toDreamModel,
       audio: audio && audio.toDreamModel,
     });
   }
 
-  return newDreams;
+  return { totalItems, totalPages, page, pageSize, isFirstPage, isLastPage, items: newDreams };
 };
 
 const addDream = async (id: ObjectId, reqBody: DreamRequest) => {

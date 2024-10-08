@@ -3,8 +3,16 @@ import { Dream } from "../../shared/models/dream";
 import { DreamSchema } from "../../shared/schema/dream";
 import { MediaSchema } from "../../shared/schema/media";
 
-const getDreams = async () => {
-  return DreamSchema.find({}).sort({ createdAt: "desc" });
+const getDreams = async (
+  page: number,
+  pageSize: number
+): Promise<{ totalItems: number; totalPages: number; dreams: Dream[] }> => {
+  const offset = (page - 1) * pageSize;
+  const dreams = await DreamSchema.find({}).skip(offset).limit(pageSize).sort({ createdAt: "desc" });
+  const totalItems = await DreamSchema.countDocuments({});
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  return { totalItems, totalPages, dreams: dreams.map((dream) => dream.toJSON()) };
 };
 
 const addDream = async (id: ObjectId, dream: Dream) => {
